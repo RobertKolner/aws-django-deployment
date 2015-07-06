@@ -1,0 +1,7 @@
+[program:{{app_name}}]
+command=/var/virtualenvs/{{app_name}}/bin/gunicorn {{app_name}}.wsgi:application --bind=0.0.0.0:8080 --log-level=info
+directory=/var/webapps/{{app_name}}
+environment=LANG=en_US.UTF-8,LC_ALL=en_US.UTF-8,PATH="/var/virtualenvs/{{app_name}}/bin"
+redirect_stderr=true
+stdout_logfile=/var/log/supervisor/{{app_name}}.log
+user=ubuntu
