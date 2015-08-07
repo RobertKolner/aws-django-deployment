@@ -144,10 +144,15 @@ def _setup_venv(app_name):
 
 
 def _setup_postgres(db_name):
+    create_user = False
     with hide('output'):
         sudo('apt-get install -y postgresql postgresql-contrib libpq-dev')
         if not sudo('psql postgres -tAc "SELECT 1 FROM pg_roles WHERE rolname=\'{}\'"'.format(db_name), user='postgres').strip():
-            sudo('createuser --createdb --no-superuser --no-createrole --pwprompt {}'.format(db_name), user='postgres')
+            create_user = True
+
+    with show('output', 'user'):
+        sudo('createuser --createdb --no-superuser --no-createrole --pwprompt {}'.format(db_name), user='postgres')
+        sudo('createdb {}'.format(db_name), user='postgres')
 
 
 def _setup_redis():
