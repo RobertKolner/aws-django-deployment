@@ -151,8 +151,8 @@ def _setup_postgres(db_name):
             create_user = True
 
     with show('output', 'user'):
-        sudo('createuser --createdb --no-superuser --no-createrole --pwprompt {}'.format(db_name), user='postgres')
-        sudo('createdb {}'.format(db_name), user='postgres')
+        sudo('createuser --no-createdb --no-superuser --no-createrole --pwprompt {}'.format(db_name), user='postgres')
+        sudo('createdb --owner={db_name} {db_name}'.format(db_name=db_name), user='postgres')
 
 
 def _setup_redis():
